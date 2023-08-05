@@ -27,11 +27,12 @@ app.get('/ping', async (req, res) => {
 app.post('/users', async (req, res) => {
     try {
         const { cedula, nombre, apellido } = req.body;
-        const [results] = await pool.execute(
+        const results = await pool.execute(
             'INSERT INTO users (cedula, nombre, apellido) VALUES (?, ?, ?)',
             [cedula, nombre, apellido]
         );
-        res.status(200).send("Process Execute", results)
+        const userId = results.insertId;
+        res.status(201).json({ message: 'Usuario creado exitosamente', userId });
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json({ error: 'Internal Server Error' });
