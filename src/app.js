@@ -27,18 +27,16 @@ app.get('/ping', async (req, res) => {
 app.post('/users', async (req, res) => {
     try {
         const { cedula, nombre, apellido } = req.body;
-        const createdAt = new Date().toISOString();
         const [results] = await pool.execute(
-            'INSERT INTO users (cedula, nombre, apellido, created_at) VALUES (?, ?, ?, ?)',
-            [cedula, nombre, apellido, createdAt]
+            'INSERT INTO users (cedula, nombre, apellido) VALUES (?, ?, ?)',
+            [cedula, nombre, apellido]
         );
-        res.status(201).json({ id: results.insertId, cedula, nombre, apellido, created_at: createdAt });
+        res.status(200).send("Process Execute", results)
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
 // Método para actualizar un usuario existente
 app.put('/users/:id', async (req, res) => {
     try {
