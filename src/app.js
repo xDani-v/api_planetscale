@@ -27,11 +27,9 @@ app.get('/ping', async (req, res) => {
 app.post('/users', async (req, res) => {
     try {
         const { cedula, nombre, apellido } = req.body;
-        const createdAt = new Date().toISOString();
-
         const results = await pool.execute(
-            'INSERT INTO users (cedula, nombre, apellido, created_at) VALUES (?, ?, ?, ?)',
-            [cedula, nombre, apellido, createdAt]
+            'INSERT INTO users (cedula, nombre, apellido) VALUES (?, ?, ?)',
+            [cedula, nombre, apellido]
         );
 
         const userId = results.insertId;
