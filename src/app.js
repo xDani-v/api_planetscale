@@ -38,7 +38,7 @@ app.post('/users', async (req, res) => {
         res.status(201).json({ message: 'Usuario creado exitosamente', userId });
     } catch (error) {
         console.error('Error creating user:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json(error);
     }
 });
 
